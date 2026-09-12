@@ -1,0 +1,6 @@
+{
+  "name": "SpielerPlus",
+  "description": "Trainingsbeteiligung und Anwesenheitsstatus für FC Hertha 03 U14 im IBM Carbon Design.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,1092 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SpielerPlus · Trainingsbeteiligung (Carbon Design)</title>
+  <!-- IBM Plex Sans from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    /* IBM Carbon Design System Tokens */
+    :root {
+      --cds-primary: #0f62fe;
+      --cds-on-primary: #ffffff;
+      --cds-blue-hover: #0050e6;
+      --cds-blue-80: #002d9c;
+      --cds-ink: #161616;
+      --cds-ink-muted: #525252;
+      --cds-ink-subtle: #8c8c8c;
+      --cds-canvas: #ffffff;
+      --cds-surface-1: #f4f4f4;
+      --cds-surface-2: #e0e0e0;
+      --cds-hairline: #e0e0e0;
+      --cds-hairline-strong: #161616;
+      --cds-success: #24a148;
+      --cds-warning: #f1c21b;
+      --cds-error: #da1e28;
+      --cds-inverse-canvas: #161616;
+      --cds-inverse-ink: #ffffff;
+      --cds-inverse-ink-muted: #c6c6c6;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--cds-canvas);
+      color: var(--cds-ink);
+      font-family: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      letter-spacing: 0.16px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* Strict Carbon 0px flat geometry */
+    *, *::before, *::after {
+      border-radius: 0px !important;
+    }
+
+    .display-light {
+      font-weight: 300;
+      letter-spacing: -0.4px;
+    }
+
+    /* Carbon Tabs */
+    .carbon-tab {
+      background-color: transparent;
+      color: var(--cds-ink-muted);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.16px;
+      padding: 14px 16px;
+      border: none;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s ease, border-color 0.15s ease;
+      cursor: pointer;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      font-family: inherit;
+    }
+    .carbon-tab:hover {
+      color: var(--cds-ink);
+      border-bottom-color: var(--cds-hairline);
+    }
+    .carbon-tab.active {
+      color: var(--cds-ink);
+      font-weight: 600;
+      border-bottom-color: var(--cds-primary);
+    }
+
+    /* Carbon Buttons */
+    .btn-primary {
+      background-color: var(--cds-primary);
+      color: var(--cds-on-primary);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.16px;
+      padding: 12px 16px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+      border: none;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      background-color: var(--cds-blue-hover);
+    }
+    .btn-primary:active {
+      background-color: var(--cds-blue-80);
+    }
+
+    .btn-secondary {
+      background-color: var(--cds-surface-1);
+      color: var(--cds-ink);
+      font-size: 14px;
+      font-weight: 400;
+      letter-spacing: 0.16px;
+      padding: 12px 16px;
+      min-height: 48px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      border: 1px solid var(--cds-hairline);
+      transition: background-color 0.15s ease;
+      text-decoration: none;
+    }
+    .btn-secondary:hover {
+      background-color: var(--cds-surface-2);
+    }
+
+    /* Carbon Input */
+    .carbon-input {
+      background-color: var(--cds-surface-1);
+      color: var(--cds-ink);
+      font-size: 14px;
+      letter-spacing: 0.16px;
+      padding: 12px 16px;
+      min-height: 48px;
+      border: none;
+      border-bottom: 1px solid var(--cds-hairline-strong);
+      outline: none;
+      transition: border-bottom-color 0.15s ease, box-shadow 0.15s ease;
+      width: 100%;
+      font-family: inherit;
+    }
+    .carbon-input:focus {
+      border-bottom: 2px solid var(--cds-primary);
+      outline: 2px solid var(--cds-primary);
+      outline-offset: -2px;
+    }
+
+    /* Status Indicators */
+    .mark-check {
+      color: var(--cds-success);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .mark-x {
+      color: var(--cds-error);
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .mark-excused {
+      color: var(--cds-ink-subtle);
+      font-size: 11px;
+      font-weight: 500;
+      background: var(--cds-surface-1);
+      padding: 2px 5px;
+      border: 1px solid var(--cds-hairline);
+      display: inline-block;
+    }
+    .mark-unanswered {
+      color: var(--cds-warning);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Sticky column for tables */
+    .sticky-left {
+      position: sticky;
+      left: 0;
+      background-color: var(--cds-canvas);
+      z-index: 10;
+    }
+    tr:nth-child(even) .sticky-left {
+      background-color: var(--cds-surface-1);
+    }
+    tr:hover .sticky-left {
+      background-color: var(--cds-surface-2);
+    }
+
+    /* Hide scrollbar */
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Custom Checkbox */
+    .carbon-checkbox {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--cds-ink);
+      background: #fff;
+      display: inline-grid;
+      place-content: center;
+      cursor: pointer;
+      margin: 0;
+    }
+    .carbon-checkbox:checked {
+      background-color: var(--cds-primary);
+      border-color: var(--cds-primary);
+    }
+    .carbon-checkbox:checked::before {
+      content: "";
+      width: 8px;
+      height: 4px;
+      border-left: 2px solid white;
+      border-bottom: 2px solid white;
+      transform: rotate(-45deg) translate(1px, -1px);
+    }
+  </style>
+</head>
+<body class="min-h-screen pb-20 md:pb-12 flex flex-col">
+
+  <!-- Top Header / Navigation (Carbon 48px enterprise bar) -->
+  <header class="bg-white border-b border-[#e0e0e0] px-4 py-3 sticky top-0 z-30 flex items-center justify-between">
+    <div class="flex items-center space-x-3">
+      <div class="w-7 h-7 bg-[#0f62fe] text-white flex items-center justify-center font-bold text-xs">
+        SP
+      </div>
+      <div>
+        <h1 class="text-sm font-semibold text-[#161616] leading-none">SpielerPlus Beteiligung</h1>
+        <p class="text-[11px] text-[#525252] mt-0.5 flex items-center gap-1.5">
+          <span>FC Hertha 03 · U14</span>
+          <span class="text-[#8c8c8c]">·</span>
+          <span id="syncBadge" class="text-[#24a148] font-medium flex items-center gap-1">
+            <span class="inline-block w-1.5 h-1.5 rounded-full bg-[#24a148]"></span>
+            <span id="syncBadgeText">Live Sheet</span>
+          </span>
+        </p>
+      </div>
+    </div>
+    <div class="flex items-center space-x-2">
+      <button onclick="fetchSheetData(true)" id="syncBtn" title="Google Sheet synchronisieren"
+         class="btn-secondary text-xs !min-h-[36px] !py-1.5 !px-2.5 flex items-center gap-1.5 text-[#161616] border border-[#8d8d8d] hover:bg-[#e0e0e0] bg-white transition-colors cursor-pointer">
+        <svg id="syncIcon" class="w-3.5 h-3.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+        </svg>
+        <span>Sync</span>
+      </button>
+      <a href="https://docs.google.com/spreadsheets/d/1wVgYxiIxE14R1DchIXs-PGENlT-q4oNLwUtItSaHpvk/edit?usp=sharing" target="_blank"
+         class="btn-primary text-xs !min-h-[36px] !py-1.5 !px-3 flex items-center gap-1.5">
+        <span>Google Sheets</span>
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+      </a>
+    </div>
+  </header>
+
+  <!-- Carbon Tab Navigation Strip -->
+  <nav class="bg-white border-b border-[#e0e0e0] sticky top-[53px] z-20 overflow-x-auto no-scrollbar">
+    <div class="max-w-4xl mx-auto flex items-center px-4">
+      <button onclick="switchTab('week')" id="tab-btn-week" class="carbon-tab active">
+        Aktuelle Woche
+      </button>
+      <button onclick="switchTab('all-weeks')" id="tab-btn-all-weeks" class="carbon-tab">
+        Wochenübersicht
+      </button>
+      <button onclick="switchTab('stats')" id="tab-btn-stats" class="carbon-tab">
+        Rangliste
+      </button>
+      <button onclick="switchTab('matrix')" id="tab-btn-matrix" class="carbon-tab">
+        Gesamtmatrix
+      </button>
+    </div>
+  </nav>
+
+  <!-- Search and Overview Banner -->
+  <section class="bg-[#f4f4f4] border-b border-[#e0e0e0] px-4 py-4">
+    <div class="max-w-4xl mx-auto space-y-3">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <span id="weekSubtitle" class="text-xs text-[#525252] block">KW 37 · 07. September bis 11. September 2026</span>
+          <h2 class="text-2xl display-light text-[#161616]">Trainingseinheiten</h2>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <span id="totalPlayersBadge" class="text-xs bg-white border border-[#e0e0e0] px-2.5 py-1 text-[#525252]">18 gemeldete Spieler</span>
+          <span id="playerBadgeCount" class="text-xs bg-white border border-[#e0e0e0] px-2.5 py-1 text-[#161616] font-medium">15 aktive Spieler</span>
+        </div>
+      </div>
+
+      <!-- Carbon Text Input -->
+      <div class="relative">
+        <input type="text" id="playerSearch" placeholder="Spieler nach Name filtern..." oninput="filterPlayers()" class="carbon-input pr-10">
+        <button id="clearSearch" onclick="clearSearchInput()" class="hidden absolute right-3 top-3.5 text-[#525252] hover:text-[#161616] text-xs font-bold px-1">
+          ✕
+        </button>
+      </div>
+
+      <!-- Carbon Filter Toggle: Inactive / 0% Players -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-xs text-[#525252]">
+        <label class="inline-flex items-center gap-2 cursor-pointer select-none">
+          <input type="checkbox" id="filterInactiveCheckbox" checked onchange="toggleFilterInactive()"
+                 class="carbon-checkbox">
+          <span class="text-[#161616]">Inaktive / 0% Beteiligung ausblenden <span class="text-[#8c8c8c]">(Paul(T), Gregor, Hannes)</span></span>
+        </label>
+        <span id="playerFilterNotice" class="text-[11px] text-[#525252]">3 Spieler ausgeblendet</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <main class="max-w-4xl mx-auto w-full px-4 py-6 flex-1">
+
+    <!-- TAB 1: AKTUELLE WOCHE -->
+    <section id="tab-week" class="tab-pane space-y-4">
+      
+      <!-- Day Statistics Cards -->
+      <div id="current-week-cards" class="grid grid-cols-3 gap-0 border border-[#e0e0e0] bg-white divide-x divide-[#e0e0e0]">
+        <!-- Populated via JS -->
+      </div>
+
+      <!-- Controls: Legend & Count -->
+      <div class="flex items-center justify-between text-xs text-[#525252] pt-1">
+        <div class="flex items-center space-x-3">
+          <span class="flex items-center gap-1"><span class="mark-check">✓</span> Dabei</span>
+          <span class="flex items-center gap-1"><span class="mark-x">✗</span> Fehlt</span>
+          <span class="flex items-center gap-1"><span class="mark-excused">Entsch.</span></span>
+        </div>
+        <span id="playerCountLabel">15 Spieler angezeigt</span>
+      </div>
+
+      <!-- Primary Mobile-First Attendance Table -->
+      <div class="border border-[#e0e0e0] bg-white overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[340px]">
+          <thead>
+            <tr id="current-week-thead-tr" class="bg-[#f4f4f4] border-b border-[#e0e0e0] text-xs text-[#161616]">
+              <!-- Populated via JS -->
+            </tr>
+          </thead>
+          <tbody id="current-week-tbody" class="divide-y divide-[#e0e0e0] text-sm">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: ALLE WOCHEN / HISTORIE -->
+    <section id="tab-all-weeks" class="tab-pane hidden space-y-4">
+      <div class="flex items-center justify-between border border-[#e0e0e0] bg-[#f4f4f4] p-3">
+        <label for="weekSelect" class="text-xs font-semibold text-[#161616]">Trainingswoche auswählen:</label>
+        <select id="weekSelect" onchange="renderSelectedWeek()" class="bg-white border border-[#e0e0e0] text-xs px-3 py-2 text-[#161616] focus:outline-none focus:border-[#0f62fe]">
+          <!-- Populated via JS -->
+        </select>
+      </div>
+
+      <div class="border border-[#e0e0e0] bg-white overflow-x-auto">
+        <table class="w-full text-left border-collapse min-w-[340px]">
+          <thead>
+            <tr id="history-thead-tr" class="bg-[#f4f4f4] border-b border-[#e0e0e0] text-xs text-[#161616]">
+              <!-- Populated via JS -->
+            </tr>
+          </thead>
+          <tbody id="history-tbody" class="divide-y divide-[#e0e0e0] text-sm">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 3: RANGLISTE -->
+    <section id="tab-stats" class="tab-pane hidden space-y-3">
+      <div class="border border-[#e0e0e0] bg-white p-4">
+        <h3 class="text-lg display-light text-[#161616]">Gesamtbeteiligung</h3>
+        <p class="text-xs text-[#525252]">Auswertung der erfassten Trainingseinheiten</p>
+      </div>
+
+      <div id="stats-container" class="border border-[#e0e0e0] bg-white divide-y divide-[#e0e0e0]">
+        <!-- Populated via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: GESAMTMATRIX -->
+    <section id="tab-matrix" class="tab-pane hidden space-y-3">
+      <div class="border border-[#e0e0e0] bg-[#f4f4f4] p-3 text-xs flex items-center justify-between">
+        <span>Vollständige Matrix (alle Termine)</span>
+        <a href="https://docs.google.com/spreadsheets/d/1wVgYxiIxE14R1DchIXs-PGENlT-q4oNLwUtItSaHpvk/edit?usp=sharing" target="_blank" class="text-[#0f62fe] hover:underline flex items-center gap-1 font-semibold">
+          In Google Sheets bearbeiten ↗
+        </a>
+      </div>
+
+      <div class="border border-[#e0e0e0] bg-white overflow-x-auto">
+        <table class="text-xs text-left border-collapse whitespace-nowrap">
+          <thead id="full-matrix-thead" class="bg-[#f4f4f4] border-b border-[#e0e0e0]">
+            <!-- Populated via JS -->
+          </thead>
+          <tbody id="full-matrix-tbody" class="divide-y divide-[#e0e0e0]">
+            <!-- Populated via JS -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Carbon Dark Footer -->
+  <footer class="bg-[#161616] text-[#c6c6c6] px-4 py-8 mt-auto border-t border-[#393939]">
+    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs">
+      <div>
+        <div class="text-white font-semibold text-sm">SpielerPlus Beteiligungsübersicht</div>
+        <p class="text-[#8c8c8c] mt-0.5">Designed nach IBM Carbon Design System · FC Hertha 03 U14</p>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="https://docs.google.com/spreadsheets/d/1wVgYxiIxE14R1DchIXs-PGENlT-q4oNLwUtItSaHpvk/edit?usp=sharing" target="_blank" class="text-white hover:text-[#0f62fe] transition-colors">
+          Google Spreadsheet
+        </a>
+        <a href="https://www.spielerplus.de" target="_blank" class="text-white hover:text-[#0f62fe] transition-colors">
+          SpielerPlus
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Mobile Bottom Floating Navigation -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white border-t border-[#e0e0e0] flex items-center justify-around h-14 shadow-md">
+    <button onclick="switchTab('week')" id="nav-btn-week" class="flex flex-col items-center justify-center flex-1 h-full text-xs font-semibold text-[#0f62fe] border-t-2 border-[#0f62fe] bg-transparent border-0">
+      <span>Woche</span>
+    </button>
+    <button onclick="switchTab('all-weeks')" id="nav-btn-all-weeks" class="flex flex-col items-center justify-center flex-1 h-full text-xs text-[#525252] border-t-2 border-transparent bg-transparent border-0">
+      <span>Historie</span>
+    </button>
+    <button onclick="switchTab('stats')" id="nav-btn-stats" class="flex flex-col items-center justify-center flex-1 h-full text-xs text-[#525252] border-t-2 border-transparent bg-transparent border-0">
+      <span>Ranking</span>
+    </button>
+    <button onclick="switchTab('matrix')" id="nav-btn-matrix" class="flex flex-col items-center justify-center flex-1 h-full text-xs text-[#525252] border-t-2 border-transparent bg-transparent border-0">
+      <span>Matrix</span>
+    </button>
+  </nav>
+
+  <script>
+    const EMBEDDED_DATA = {
+      "headers": [
+        "Player",
+        "Participation",
+        "Participation %",
+        "Participation Quote %",
+        "11/09",
+        "09/09",
+        "07/09",
+        "04/09",
+        "02/09",
+        "31/08",
+        "28/08",
+        "26/08",
+        "24/08",
+        "21/08",
+        "19/08",
+        "17/08",
+        "14/08",
+        "12/08",
+        "10/08"
+      ],
+      "rows": [
+        ["Lion", 11, "73%", "92%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Levi", 11, "73%", "92%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Lionel", 11, "73%", "92%", "Yes", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Arturo", 11, "73%", "92%", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Alex", 11, "73%", "92%", "Yes", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Tayo", 11, "73%", "92%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Finley", 10, "67%", "83%", "Yes", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Arvid", 10, "67%", "83%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Lasse", 10, "67%", "83%", "Yes", "Yes", "Yes", "Yes", "No", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Milan", 10, "67%", "83%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Peter", 9, "60%", "75%", "Yes", "Yes", "No", "Yes", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Jakob", 8, "53%", "67%", "Yes", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Yes", "No", "Yes", "No", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Paul", 7, "47%", "58%", "No", "Yes", "Yes", "No", "Yes", "No", "Yes", "Yes", "Yes", "No", "No", "Yes", "Unanswered", "Unanswered", "Unanswered"],
+        ["Lennox", 7, "47%", "58%", "No", "Yes", "Yes", "Yes", "Yes", "Yes", "No", "Yes", "No", "Yes", "No", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Tommy", 6, "40%", "50%", "No", "Yes", "No", "No", "Yes", "No", "Yes", "Yes", "Yes", "Yes", "No", "No", "Unanswered", "Unanswered", "Unanswered"],
+        ["Paul(T)", 0, "0%", "0%", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Unanswered", "Unanswered", "Unanswered"],
+        ["Gregor", 0, "0%", "0%", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Maybe", "Excused", "Excused", "Excused", "Excused", "Unanswered", "Unanswered", "Unanswered"],
+        ["Hannes", 0, "0%", "0%", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Excused", "Unanswered", "Unanswered", "Unanswered", "Unanswered", "Unanswered", "Unanswered"]
+      ],
+      "exportedAt": "12.09.2026, 14:36 Uhr",
+      "totalPlayers": 18
+    };
+
+    let DATA = EMBEDDED_DATA;
+    let WEEKS = {};
+    let activeWeekKey = "kw37";
+    let activeTab = "week";
+    let searchQuery = "";
+    let hideInactive = true;
+
+    function escapeHtml(str) {
+      if (str === undefined || str === null) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function isInactive(r) {
+      const name = String(r[0] || "").trim().toLowerCase();
+      if (name === "paul(t)" || name === "gregor" || name === "hannes") return true;
+      const count = typeof r[1] === "number" ? r[1] : (parseInt(r[1], 10) || 0);
+      if (count === 0) return true;
+      const pct = String(r[2] || "");
+      if (pct === "0%" || pct.startsWith("0")) return true;
+      return false;
+    }
+
+    function shouldIncludeRow(r) {
+      if (!r || !r.length) return false;
+      const name = String(r[0] || "");
+      const matchesSearch = !searchQuery || name.toLowerCase().includes(searchQuery.toLowerCase());
+      if (!matchesSearch) return false;
+
+      // If user typed an explicit search query, show the match even if inactive
+      if (searchQuery) return true;
+
+      if (hideInactive && isInactive(r)) {
+        return false;
+      }
+      return true;
+    }
+
+    function statusRender(val) {
+      if (val === "Yes") {
+        return `<span class="mark-check" title="Anwesend / Zusage">✓</span>`;
+      } else if (val === "No") {
+        return `<span class="mark-x" title="Abgemeldet / Absage">✗</span>`;
+      } else if (val === "Excused") {
+        return `<span class="mark-excused" title="Entschuldigt">Entsch.</span>`;
+      } else if (val === "Maybe") {
+        return `<span class="mark-unanswered" title="Unsicher">?</span>`;
+      } else {
+        return `<span class="text-[#8c8c8c]">—</span>`;
+      }
+    }
+
+    function buildWeeks(headers) {
+      const dayNames = ["Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"];
+      const dateCols = [];
+      const currentYear = 2026;
+
+      headers.forEach(h => {
+        const m = String(h).match(/^(\d{1,2})[\/\.](\d{1,2})(?:[\/\.](\d{2,4}))?$/);
+        if (m) {
+          const day = parseInt(m[1], 10);
+          const month = parseInt(m[2], 10);
+          const yr = m[3] ? (m[3].length === 2 ? 2000 + parseInt(m[3], 10) : parseInt(m[3], 10)) : currentYear;
+          const dt = new Date(yr, month - 1, day);
+          dateCols.push({ col: h, day, month, year: yr, dateObj: dt });
+        }
+      });
+
+      function getKW(d) {
+        const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+        const dayNum = date.getUTCDay() || 7;
+        date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+        return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+      }
+
+      const kwMap = {};
+      dateCols.forEach(item => {
+        const kw = getKW(item.dateObj);
+        const kwKey = `kw${kw}`;
+        if (!kwMap[kwKey]) {
+          kwMap[kwKey] = { kw, year: item.year, items: [] };
+        }
+        kwMap[kwKey].items.push(item);
+      });
+
+      const weeks = {};
+      const sortedKeys = Object.keys(kwMap).sort((a, b) => {
+        const maxDateA = Math.max(...kwMap[a].items.map(i => i.dateObj.getTime()));
+        const maxDateB = Math.max(...kwMap[b].items.map(i => i.dateObj.getTime()));
+        return maxDateB - maxDateA;
+      });
+
+      sortedKeys.forEach(k => {
+        const entry = kwMap[k];
+        entry.items.sort((a, b) => a.dateObj.getTime() - b.dateObj.getTime());
+        const first = entry.items[0];
+        const last = entry.items[entry.items.length - 1];
+        const firstStr = `${String(first.day).padStart(2, "0")}.${String(first.month).padStart(2, "0")}.`;
+        const lastStr = `${String(last.day).padStart(2, "0")}.${String(last.month).padStart(2, "0")}.${last.year}`;
+        const label = `KW ${entry.kw} (${firstStr} - ${lastStr})`;
+
+        weeks[k] = {
+          kw: entry.kw,
+          label: label,
+          startDate: firstStr,
+          endDate: lastStr,
+          days: entry.items.map(i => ({
+            name: dayNames[i.dateObj.getDay()],
+            date: `${String(i.day).padStart(2, "0")}.${String(i.month).padStart(2, "0")}.`,
+            fullDate: `${String(i.day).padStart(2, "0")}.${String(i.month).padStart(2, "0")}.${i.year}`,
+            col: i.col
+          }))
+        };
+      });
+
+      return weeks;
+    }
+
+    function toggleFilterInactive() {
+      const cb = document.getElementById("filterInactiveCheckbox");
+      hideInactive = cb ? cb.checked : true;
+      updateFilterNotice();
+      rerenderActiveTab();
+    }
+
+    function updateFilterNotice() {
+      const notice = document.getElementById("playerFilterNotice");
+      const badge = document.getElementById("playerBadgeCount");
+      const totalBadge = document.getElementById("totalPlayersBadge");
+      const inactiveCount = DATA.rows.filter(isInactive).length;
+      const activeCount = DATA.rows.length - inactiveCount;
+
+      if (totalBadge) totalBadge.innerText = `${DATA.rows.length} gemeldete Spieler`;
+
+      if (hideInactive) {
+        if (notice) notice.innerText = `${inactiveCount} Spieler standardmäßig ausgeblendet`;
+        if (badge) badge.innerText = `${activeCount} aktive Spieler`;
+      } else {
+        if (notice) notice.innerText = `Alle ${DATA.rows.length} Spieler eingeblendet`;
+        if (badge) badge.innerText = `${DATA.rows.length} Spieler (gesamt)`;
+      }
+    }
+
+    function updateBannerInfo() {
+      const week = WEEKS[activeWeekKey];
+      const subtitle = document.getElementById("weekSubtitle");
+      if (subtitle && week) {
+        subtitle.innerText = `${week.label}`;
+      }
+      if (DATA.exportedAt) {
+        const updatedLabel = document.getElementById("lastUpdated");
+        if (updatedLabel) {
+          updatedLabel.innerText = `Aktualisiert: ${DATA.exportedAt}`;
+        }
+      }
+    }
+
+    function renderCurrentWeekCards() {
+      const container = document.getElementById("current-week-cards");
+      const week = WEEKS[activeWeekKey];
+      if (!container || !week || !week.days) return;
+      const count = Math.min(week.days.length, 5);
+      container.className = `grid grid-cols-${count} gap-0 border border-[#e0e0e0] bg-white divide-x divide-[#e0e0e0]`;
+
+      container.innerHTML = week.days.map(d => {
+        const colIdx = DATA.headers.indexOf(d.col);
+        let yesCount = 0;
+        DATA.rows.forEach(r => {
+          if (shouldIncludeRow(r) && colIdx >= 0 && r[colIdx] === "Yes") {
+            yesCount++;
+          }
+        });
+        return `
+          <div class="p-3 sm:p-4 text-left">
+            <div class="text-xs font-semibold text-[#161616]">${d.name}</div>
+            <div class="text-[11px] text-[#525252]">${d.fullDate || d.date}</div>
+            <div class="mt-2 text-xl display-light text-[#24a148]">${yesCount} <span class="text-xs text-[#525252] font-normal">Dabei</span></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderCurrentWeekHeader() {
+      const theadTr = document.getElementById("current-week-thead-tr");
+      const week = WEEKS[activeWeekKey];
+      if (!theadTr || !week || !week.days) return;
+      theadTr.innerHTML = `
+        <th class="py-3 px-4 font-semibold sticky-left">Name</th>
+        ${week.days.map(d => `
+          <th class="py-3 px-3 text-center border-l border-[#e0e0e0] w-24">
+            <div class="font-semibold">${d.name}</div>
+            <div class="text-[11px] text-[#525252] font-normal">${d.date}</div>
+          </th>
+        `).join('')}
+      `;
+    }
+
+    function renderCurrentWeek() {
+      const week = WEEKS[activeWeekKey];
+      if (!week) return;
+      renderCurrentWeekCards();
+      renderCurrentWeekHeader();
+
+      const tbody = document.getElementById("current-week-tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const colIdxs = week.days.map(d => DATA.headers.indexOf(d.col));
+      let count = 0;
+
+      DATA.rows.forEach((r) => {
+        if (!shouldIncludeRow(r)) return;
+        count++;
+
+        const name = r[0];
+        const attended = r[1];
+        const pct = r[2] || "";
+        const quote = r[3] || "";
+        const statsDisplay = pct ? `${attended} Einheiten (${pct}${quote && quote !== pct ? ' · Quote ' + quote : ''})` : `${attended} Einheiten`;
+
+        const tr = document.createElement("tr");
+        tr.className = `${count % 2 === 0 ? 'bg-[#f4f4f4]' : 'bg-white'} hover:bg-[#e0e0e0]/40 transition-colors`;
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-semibold text-[#161616] sticky-left">
+            <div class="text-sm font-semibold">${escapeHtml(name)}</div>
+            <div class="text-[11px] text-[#525252] font-normal">${escapeHtml(statsDisplay)}</div>
+          </td>
+          ${colIdxs.map(ci => `
+            <td class="py-3 px-3 text-center align-middle border-l border-[#e0e0e0]">${statusRender(ci >= 0 ? r[ci] : '')}</td>
+          `).join('')}
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const label = document.getElementById("playerCountLabel");
+      if (label) {
+        label.innerText = `${count} Spieler angezeigt`;
+      }
+    }
+
+    function renderSelectedWeek() {
+      const select = document.getElementById("weekSelect");
+      const week = (select && WEEKS[select.value]) ? WEEKS[select.value] : (WEEKS[activeWeekKey] || Object.values(WEEKS)[0]);
+      if (!week) return;
+
+      const theadTr = document.getElementById("history-thead-tr");
+      if (theadTr) {
+        theadTr.innerHTML = `
+          <th class="py-3 px-4 font-semibold sticky-left">Name</th>
+          ${week.days.map(d => `
+            <th class="py-3 px-3 text-center border-l border-[#e0e0e0] w-24">
+              <div class="font-semibold">${d.name}</div>
+              <div class="text-[11px] text-[#525252] font-normal">${d.date}</div>
+            </th>
+          `).join('')}
+        `;
+      }
+
+      const tbody = document.getElementById("history-tbody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const colIdxs = week.days.map(d => DATA.headers.indexOf(d.col));
+      let count = 0;
+
+      DATA.rows.forEach((r) => {
+        if (!shouldIncludeRow(r)) return;
+        count++;
+        const name = r[0];
+        const attended = r[1];
+        const pct = r[2] || "";
+        const statsDisplay = pct ? `${attended} Einheiten (${pct})` : `${attended} Einheiten`;
+
+        const tr = document.createElement("tr");
+        tr.className = `${count % 2 === 0 ? 'bg-[#f4f4f4]' : 'bg-white'} hover:bg-[#e0e0e0]/40 transition-colors`;
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-semibold text-[#161616] sticky-left">
+            <div class="text-sm font-semibold">${escapeHtml(name)}</div>
+            <div class="text-[11px] text-[#525252] font-normal">${escapeHtml(statsDisplay)}</div>
+          </td>
+          ${colIdxs.map(ci => `
+            <td class="py-3 px-3 text-center align-middle border-l border-[#e0e0e0]">${statusRender(ci >= 0 ? r[ci] : '')}</td>
+          `).join('')}
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderStats() {
+      const container = document.getElementById("stats-container");
+      if (!container) return;
+      container.innerHTML = "";
+
+      const filtered = DATA.rows.filter(shouldIncludeRow);
+
+      const sorted = [...filtered].sort((a, b) => {
+        const numA = typeof a[1] === 'number' ? a[1] : (parseInt(a[1]) || 0);
+        const numB = typeof b[1] === 'number' ? b[1] : (parseInt(b[1]) || 0);
+        return numB - numA;
+      });
+
+      sorted.forEach((r, idx) => {
+        const name = r[0];
+        const count = typeof r[1] === 'number' ? r[1] : (parseInt(r[1]) || 0);
+        const pctStr = String(r[2] || "");
+        const percent = parseInt(pctStr.replace("%", "")) || (count ? Math.round((count / 15) * 100) : 0);
+        const quote = r[3] || "";
+
+        const row = document.createElement("div");
+        row.className = "p-4 flex items-center justify-between hover:bg-[#f4f4f4] transition-colors";
+        row.innerHTML = `
+          <div class="flex items-center space-x-4">
+            <span class="text-xs font-semibold text-[#8c8c8c] w-6">#${idx + 1}</span>
+            <div>
+              <div class="font-semibold text-sm text-[#161616]">${escapeHtml(name)}</div>
+              <div class="text-xs text-[#525252]">${count} von 15 Einheiten${quote ? ' · Quote: ' + escapeHtml(quote) : ''}</div>
+            </div>
+          </div>
+          <div class="flex items-center space-x-3 w-40">
+            <div class="flex-1 bg-[#e0e0e0] h-2">
+              <div class="bg-[#0f62fe] h-full" style="width: ${percent}%;"></div>
+            </div>
+            <span class="text-xs font-semibold text-[#161616] w-9 text-right">${percent}%</span>
+          </div>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    function renderFullMatrix() {
+      const thead = document.getElementById("full-matrix-thead");
+      const tbody = document.getElementById("full-matrix-tbody");
+      if (!thead || !tbody) return;
+
+      thead.innerHTML = `
+        <tr class="text-xs text-[#161616]">
+          ${DATA.headers.map((h, i) => `
+            <th class="py-3 px-3 ${i === 0 ? 'sticky-left font-semibold' : 'text-center border-l border-[#e0e0e0] font-normal'}">${escapeHtml(h)}</th>
+          `).join('')}
+        </tr>
+      `;
+
+      tbody.innerHTML = "";
+      let count = 0;
+      DATA.rows.forEach((r) => {
+        if (!shouldIncludeRow(r)) return;
+        count++;
+        const tr = document.createElement("tr");
+        tr.className = `${count % 2 === 0 ? 'bg-[#f4f4f4]' : 'bg-white'} hover:bg-[#e0e0e0]/40 transition-colors`;
+        tr.innerHTML = r.map((cell, ci) => {
+          if (ci === 0) {
+            return `<td class="py-2.5 px-3 font-semibold text-sm sticky-left">${escapeHtml(cell)}</td>`;
+          } else if (ci === 1) {
+            return `<td class="py-2.5 px-2.5 text-xs text-[#525252] border-l border-[#e0e0e0]">${escapeHtml(cell)}</td>`;
+          } else if (ci >= 1 && ci <= 3) {
+            return `<td class="py-2.5 px-2.5 text-xs text-center font-medium text-[#161616] border-l border-[#e0e0e0]">${escapeHtml(cell)}</td>`;
+          } else {
+            return `<td class="py-2.5 px-2 text-center align-middle border-l border-[#e0e0e0]">${statusRender(cell)}</td>`;
+          }
+        }).join('');
+        tbody.appendChild(tr);
+      });
+    }
+
+    function populateWeekSelect(weekKeys) {
+      const select = document.getElementById("weekSelect");
+      if (!select) return;
+      select.innerHTML = weekKeys.map((k, idx) => `
+        <option value="${k}">${WEEKS[k].label}${idx === 0 ? " · Aktuell" : ""}</option>
+      `).join("");
+    }
+
+    function rerenderActiveTab() {
+      if (activeTab === "week") renderCurrentWeek();
+      else if (activeTab === "all-weeks") renderSelectedWeek();
+      else if (activeTab === "stats") renderStats();
+      else if (activeTab === "matrix") renderFullMatrix();
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll(".tab-pane").forEach(p => p.classList.add("hidden"));
+      const targetPane = document.getElementById(`tab-${tab}`);
+      if (targetPane) targetPane.classList.remove("hidden");
+
+      document.querySelectorAll(".carbon-tab").forEach(b => b.classList.remove("active"));
+      const currentTabBtn = document.getElementById(`tab-btn-${tab}`);
+      if (currentTabBtn) currentTabBtn.classList.add("active");
+
+      // Mobile Bottom Nav
+      ["week", "all-weeks", "stats", "matrix"].forEach(t => {
+        const btn = document.getElementById(`nav-btn-${t}`);
+        if (btn) {
+          if (t === tab) {
+            btn.className = "flex flex-col items-center justify-center flex-1 h-full text-xs font-semibold text-[#0f62fe] border-t-2 border-[#0f62fe] bg-transparent border-0";
+          } else {
+            btn.className = "flex flex-col items-center justify-center flex-1 h-full text-xs text-[#525252] border-t-2 border-transparent bg-transparent border-0";
+          }
+        }
+      });
+
+      rerenderActiveTab();
+    }
+
+    function filterPlayers() {
+      const input = document.getElementById("playerSearch");
+      searchQuery = input ? input.value.trim() : "";
+      const clearBtn = document.getElementById("clearSearch");
+      if (clearBtn) {
+        if (searchQuery) clearBtn.classList.remove("hidden");
+        else clearBtn.classList.add("hidden");
+      }
+      rerenderActiveTab();
+    }
+
+    function clearSearchInput() {
+      const input = document.getElementById("playerSearch");
+      if (input) input.value = "";
+      filterPlayers();
+    }
+
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSbo-rXZFWSjcsGF6ANovjL_kBBvKxjvWE1wKPZ2s5xrwVTVlD8b26DUj0wWU2RWSTkQbQUgsb05IHa/pub?output=csv";
+
+    function parseCSV(text) {
+      const lines = [];
+      let row = [];
+      let inQuotes = false;
+      let currentToken = '';
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const nextChar = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && nextChar === '"') {
+            currentToken += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === ',' && !inQuotes) {
+          row.push(currentToken.trim());
+          currentToken = '';
+        } else if ((char === '\r' || char === '\n') && !inQuotes) {
+          if (char === '\r' && nextChar === '\n') {
+            i++;
+          }
+          row.push(currentToken.trim());
+          if (row.length > 0 && (row.length > 1 || row[0] !== '')) {
+            lines.push(row);
+          }
+          row = [];
+          currentToken = '';
+        } else {
+          currentToken += char;
+        }
+      }
+      if (currentToken || row.length > 0) {
+        row.push(currentToken.trim());
+        if (row.length > 0 && (row.length > 1 || row[0] !== '')) {
+          lines.push(row);
+        }
+      }
+      return lines;
+    }
+
+    async function fetchRawCsv() {
+      // 1. First attempt via Android Native Bridge (bypasses any webview networking limits)
+      if (window.AndroidBridge && typeof window.AndroidBridge.fetchGoogleSheetSync === "function") {
+        try {
+          const csvBridge = window.AndroidBridge.fetchGoogleSheetSync();
+          if (csvBridge && csvBridge.length > 50) {
+            return csvBridge;
+          }
+        } catch (e) {
+          console.warn("AndroidBridge fetch failed:", e);
+        }
+      }
+
+      // 2. Direct fetch with cache-busting
+      const res = await fetch(CSV_URL + (CSV_URL.includes("?") ? "&" : "?") + "_t=" + Date.now(), {
+        cache: "no-cache"
+      });
+      if (!res.ok) throw new Error("HTTP " + res.status);
+      return await res.text();
+    }
+
+    function updateSyncBadge(status, isError = false) {
+      const badge = document.getElementById("syncBadge");
+      const text = document.getElementById("syncBadgeText");
+      if (!badge || !text) return;
+      text.innerText = status;
+      const dot = badge.querySelector("span");
+      if (isError) {
+        badge.className = "text-[#da1e28] font-medium flex items-center gap-1";
+        if (dot) dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-[#da1e28]";
+      } else {
+        badge.className = "text-[#24a148] font-medium flex items-center gap-1";
+        if (dot) dot.className = "inline-block w-1.5 h-1.5 rounded-full bg-[#24a148]";
+      }
+    }
+
+    async function fetchSheetData(manual = false) {
+      const icon = document.getElementById("syncIcon");
+      if (icon) icon.classList.add("animate-spin");
+
+      try {
+        const csvText = await fetchRawCsv();
+        if (!csvText || csvText.length < 20) throw new Error("Empty CSV received");
+
+        const rows = parseCSV(csvText);
+        if (rows && rows.length > 1) {
+          const headers = rows[0];
+          const dataRows = rows.slice(1).map(r => {
+            const parsed = [...r];
+            if (parsed.length > 1) {
+              const num = parseInt(parsed[1], 10);
+              if (!isNaN(num)) parsed[1] = num;
+            }
+            return parsed;
+          });
+
+          const now = new Date();
+          const timeStr = `${String(now.getDate()).padStart(2, "0")}.${String(now.getMonth() + 1).padStart(2, "0")}.${now.getFullYear()}, ${String(now.getHours()).padStart(2, "0")}:${String(now.getMinutes()).padStart(2, "0")} Uhr`;
+
+          DATA = {
+            headers: headers,
+            rows: dataRows,
+            exportedAt: timeStr,
+            totalPlayers: dataRows.length
+          };
+
+          try {
+            localStorage.setItem("cached_spielerplus_csv", csvText);
+            localStorage.setItem("cached_spielerplus_time", timeStr);
+          } catch(e) {}
+
+          initializeDashboard();
+          const hours = String(now.getHours()).padStart(2, "0");
+          const mins = String(now.getMinutes()).padStart(2, "0");
+          updateSyncBadge(`Live (${hours}:${mins})`, false);
+        }
+      } catch (err) {
+        console.warn("Live fetch error:", err);
+        updateSyncBadge("Offline / Cache", true);
+      } finally {
+        if (icon) icon.classList.remove("animate-spin");
+      }
+    }
+
+    function initializeDashboard() {
+      WEEKS = buildWeeks(DATA.headers);
+      const weekKeys = Object.keys(WEEKS);
+      if (weekKeys.length > 0) {
+        activeWeekKey = weekKeys[0];
+      }
+      populateWeekSelect(weekKeys);
+      updateBannerInfo();
+      updateFilterNotice();
+      rerenderActiveTab();
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Try to load cached data for instant render
+      try {
+        const cached = localStorage.getItem("cached_spielerplus_csv");
+        const cachedTime = localStorage.getItem("cached_spielerplus_time");
+        if (cached) {
+          const rows = parseCSV(cached);
+          if (rows && rows.length > 1) {
+            DATA = {
+              headers: rows[0],
+              rows: rows.slice(1).map(r => {
+                const parsed = [...r];
+                if (parsed.length > 1) {
+                  const num = parseInt(parsed[1], 10);
+                  if (!isNaN(num)) parsed[1] = num;
+                }
+                return parsed;
+              }),
+              exportedAt: cachedTime || "Gespeichert",
+              totalPlayers: rows.length - 1
+            };
+            updateSyncBadge("Cache", false);
+          }
+        }
+      } catch (e) {}
+
+      initializeDashboard();
+      switchTab("week");
+
+      // 2. Fetch fresh live Google Sheet data in the background
+      fetchSheetData(false);
+    });
+  </script>
+</body>
+</html>
